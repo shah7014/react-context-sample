@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import MealContext from "../../state/MealState";
+import MealAmount from "./MealAmount";
 import classes from "./SingleMeal.module.css";
 
 const SingleMeal = (props) => {
+  const { updateOrder } = useContext(MealContext);
+
+  const addAmountHandler = (amount) => {
+    updateOrder(props.meal, Number(amount), "add");
+  };
+
   return (
     <li className={classes.container}>
       <div className={classes.mealInfo}>
@@ -10,10 +18,7 @@ const SingleMeal = (props) => {
         <span className={classes.price}>{props.meal.price}</span>
       </div>
       <div className={classes.mealActions}>
-        <span>
-          <b>Amount</b> <input type="number" min={1} step={1} />
-        </span>
-        <button className={classes.btn}>+Add</button>
+        <MealAmount onAddAmount={addAmountHandler} />
       </div>
     </li>
   );
